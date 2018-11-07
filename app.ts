@@ -23,8 +23,8 @@ window.onload = () => {
     for (let i = 0; i < gameArray.length; i++) {
       for (let j = 0; j < gameArray.length; j++) {
         let canLive = canCellLive(i, j);
-        if (canLive){
-          drawCell(i,j);
+        if (canLive) {
+          drawCell(i, j);
         }
       }
     }
@@ -127,7 +127,7 @@ window.onload = () => {
   }
 
   function drawCell(y: number, x: number) {
-    ctx.fillRect(x*entitySize, y*entitySize, entitySize, entitySize);
+    ctx.fillRect(x * entitySize, y * entitySize, entitySize, entitySize);
   }
 
   function draw() {
