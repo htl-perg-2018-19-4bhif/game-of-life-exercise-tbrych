@@ -2,7 +2,7 @@ window.onload = () => {
   const boardSize = 800;
   const entitySize = 4;
   const initPercent = 3;
-  const gun = false;
+  const gun = true;
   const entitiesPerLine = boardSize / entitySize;
 
   // Get reference to canvas
@@ -10,12 +10,12 @@ window.onload = () => {
   canvas.width = canvas.height = boardSize;
   const ctx = canvas.getContext("2d");
   ctx.fillStyle = "rgba(0, 0, 0, 1)";
-
-  let gameArray = new Array(boardSize);
+  ctx.clearRect(0,0,boardSize,boardSize);
+  let gameArray = new Array();
   create2DArray();
   generateInit();
-  drawInitSituation();
 
+  window.requestAnimationFrame(drawInitSituation);
   // Call 'draw' function whenever browser renders a frame on the screen
   window.requestAnimationFrame(draw);
 
@@ -49,8 +49,10 @@ window.onload = () => {
     let num: number = 0;
     for (let i = y - 1; i <= y + 1; i++) {
       for (let j = x - 1; i <= x + 1; j++) {
-        if ((x !== j || y !== i) && gameArray[i][j] === true) {
-          num += 1;
+        if (i >= 0 && j >= 0 && j < boardSize && i < boardSize) {
+          if ((x !== j || y !== i) && gameArray[i][j] === true) {
+            num += 1;
+          }
         }
       }
     }
@@ -67,7 +69,7 @@ window.onload = () => {
 
   function create2DArray() {
     for (let i = 0; i < entitiesPerLine; i++) {
-      gameArray[i] = new Array(boardSize);
+      gameArray[i] = new Array();
       for (let j = 0; j < entitiesPerLine; j++) {
         gameArray[i][j] = false;
       }
@@ -76,11 +78,11 @@ window.onload = () => {
 
   function generateInit() {
     if (!gun) {
-      let numEntities = entitiesPerLine * (initPercent / 100);
+      let numEntities = entitiesPerLine*entitiesPerLine * (initPercent / 100);
       let placedEntities = 0;
       while (placedEntities < numEntities) {
-        let x = Math.floor(Math.random() * entitiesPerLine - 1);
-        let y = Math.floor(Math.random() * entitiesPerLine - 1);
+        let x = Math.floor(Math.random() * entitiesPerLine );
+        let y = Math.floor(Math.random() * entitiesPerLine );
         if (gameArray[y][x] === false) {
           gameArray[y][x] = true;
           placedEntities++;
